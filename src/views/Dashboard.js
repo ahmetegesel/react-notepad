@@ -1,6 +1,6 @@
 import React from 'react';
 
-import requireAuth from '../utils/requireAuth';
+import withAuth from '../utils/withAuth';
 
 function Dashboard() {
   return (
@@ -10,4 +10,4 @@ function Dashboard() {
   );
 }
 
-export default requireAuth(Dashboard);
+export default withAuth(Dashboard);
