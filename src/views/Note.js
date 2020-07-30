@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import dummyNoteApi from '../api/noteApi';
 import { NOTES } from '../routes';
+import DefaultLayout from '../layouts/DefaultLayout';
 
 function Note() {
   const { id } = useParams();
@@ -47,22 +48,24 @@ function Note() {
   const { title, content } = note;
 
   return (
-    <div>
+    <DefaultLayout>
       <div>
-        <label htmlFor="note-title">Title: </label>
-        <input id="note-title" type="text" value={title} onChange={handleTitle} />
+        <div>
+          <label htmlFor="note-title">Title: </label>
+          <input id="note-title" type="text" value={title} onChange={handleTitle} />
+        </div>
+        <div>
+          <label htmlFor="note">Note: </label>
+          <textarea
+            id="note"
+            value={content}
+            onChange={handleContent} />
+        </div>
+        <button onClick={handleSave}>Save</button>
+        <button onClick={() => history.push('/note')}>Go Back to Notes</button>
+        {error && <div>{error}</div>}
       </div>
-      <div>
-        <label htmlFor="note">Note: </label>
-        <textarea
-          id="note"
-          value={content}
-          onChange={handleContent} />
-      </div>
-      <button onClick={handleSave}>Save</button>
-      <button onClick={() => history.push('/note')}>Go Back to Notes</button>
-      {error && <div>{error}</div>}
-    </div>
+    </DefaultLayout>
   )
 }
 

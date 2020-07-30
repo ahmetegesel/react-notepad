@@ -1,11 +1,22 @@
 import React from 'react';
 
 import './App.css';
-import DefaultLayout from './layouts/DefaultLayout';
+
+import UserProvider from './contexts/userContext';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import routes from './routes';
 
 function App() {
   return (
-    <DefaultLayout />
+    <Router>
+      <UserProvider>
+        <Switch>
+          {
+            routes.map(routeProps => <Route key={routeProps.path} {...routeProps} />)
+          }
+        </Switch>
+      </UserProvider>
+    </Router>
   );
 }
 

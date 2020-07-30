@@ -1,14 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
-import routes from '../routes';
-import UserProvider from '../contexts/userContext';
 import { Layout, Menu, Row, Col } from 'antd';
 import { EditOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 
 const { Content, Header, Footer, Sider } = Layout;
 
-function DefaultLayout() {
+function DefaultLayout({ children }) {
   return (
     <Layout style={{minHeight: '100vh'}}>
       <Header style={{ padding: 0 }}>
@@ -44,15 +40,7 @@ function DefaultLayout() {
         </Sider>
         <Layout>
           <Content style={{ margin: '24px 16px 0' }}>
-            <Router>
-              <UserProvider>
-                <Switch>
-                  {
-                    routes.map(routeProps => <Route key={routeProps.path} {...routeProps} />)
-                  }
-                </Switch>
-              </UserProvider>
-            </Router>
+            { children }
           </Content>
           <Footer style={{ textAlign: 'center' }}>React Notepad ©{new Date().getFullYear()} Created by Ahmet Egesel</Footer>
         </Layout>
