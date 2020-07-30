@@ -1,11 +1,11 @@
 import React from 'react';
 
 import './App.css';
-import Layout from './Layout';
+import DefaultLayout from './layouts/DefaultLayout';
 
 function App() {
   return (
-    <Layout />
+    <DefaultLayout />
   );
 }
 
