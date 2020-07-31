@@ -1,17 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import dummyNoteApi from '../api/noteApi';
+import React, { useContext } from 'react';
 
 import { useHistory } from 'react-router-dom';
 import DefaultLayout from '../layouts/DefaultLayout';
+import { NotesContext, withNotes } from '../contexts/notesContext';
 
 function Notes() {
-  const [notes, setNotes] = useState([]);
+  const [notes] = useContext(NotesContext);
   const history = useHistory();
-
-  useEffect(() => {
-    console.log('here');
-    dummyNoteApi.getNotes().then(setNotes);
-  }, [setNotes]);
 
   const handleItemClick = (e, id) => {
     e.preventDefault();
@@ -38,4 +33,4 @@ function Notes() {
   );
 }
 
-export default Notes;
+export default withNotes(Notes);

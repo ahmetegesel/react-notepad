@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import { LOGIN } from '../routes';
 import { UserContext, withUserProvider } from '../contexts/userContext';
-import compose from '../lib/compose';
+import compose from './compose';
 
 const withAuthWrapper = Component => ({ children, ...rest }) => {
   const history = useHistory();
@@ -15,7 +15,7 @@ const withAuthWrapper = Component => ({ children, ...rest }) => {
   }
 
   return (
-    <Component children={children} />
+    <Component {...rest} children={children} />
   )
 }
 

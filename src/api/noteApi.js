@@ -12,7 +12,6 @@ const dummyNoteApi = {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const note = dummyNotes.find(note => note.id.toString() === id);
-        console.log(note)
 
         if (!note) {
           return reject(new Error('Note not found'));
@@ -25,7 +24,7 @@ const dummyNoteApi = {
   saveNote(note) {
     return new Promise(resolve => {
       setTimeout(() => {
-        const noteIndex = dummyNotes.findIndex(nextNote => nextNote.id === note.id);
+        const noteIndex = note.id && dummyNotes.findIndex(nextNote => nextNote.id.toString() === note.id.toString());
 
         if (noteIndex > -1) {
           dummyNotes.splice(noteIndex, 1, note);

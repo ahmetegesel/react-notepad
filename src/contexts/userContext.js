@@ -26,9 +26,9 @@ const UserProvider = ({ children }) => {
   );
 };
 
-export const withUserProvider = Component => ({ children }) => (
+export const withUserProvider = Component => ({ children, ...props }) => (
   <UserProvider>
-    <Component children={children} />
+    <Component { ...props } children={children} />
   </UserProvider>
 )
 

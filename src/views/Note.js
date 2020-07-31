@@ -1,51 +1,42 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
-import dummyNoteApi from '../api/noteApi';
-import { NOTES } from '../routes';
 import DefaultLayout from '../layouts/DefaultLayout';
+import { NoteDetailContext, withNoteDetail } from '../contexts/noteDetailContext';
+import { NOTES } from '../routes';
 
 function Note() {
   const { id } = useParams();
-  const [note, setNote] = useState({ title: '', content: '' });
-  const [error, setError] = useState(null);
+
+  const { fetch, save } = useContext(NoteDetailContext);
+
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+
   const history = useHistory();
 
   useEffect(() => {
     if (id) {
-      dummyNoteApi
-        .getNote(id)
-        .then(setNote)
-        .catch(setError);
+      fetch(id).then(noteDetail => {
+        setTitle(noteDetail.title);
+        setContent(noteDetail.content);
+      });
     }
-  }, [id]);
-
-  useEffect(() => {
-    document.title = note.title;
-  }, [note])
-
-  const saveNote = useCallback(noteToSave => {
-    dummyNoteApi
-      .saveNote(noteToSave)
-      .then(setNote)
-      .then(() => history.push(NOTES))
-      .catch(setError);
-  }, [setNote, setError, history]);
+  }, [id, fetch, setTitle, setContent]);
 
   const handleTitle = ({ target }) => {
     const { value } = target;
-    setNote({ ...note, title: value });
-  };
-  const handleContent = ({ target }) => {
-    const { value } = target;
-    setNote({ ...note, content: value });
+    setTitle(value);
+    document.title = value;
   };
 
   const handleSave = () => {
-    saveNote(note);
+    save({
+      id,
+      title,
+      content
+    }).then(() => history.push(NOTES));
   }
-
-  const { title, content } = note;
 
   return (
     <DefaultLayout>
@@ -59,14 +50,13 @@ function Note() {
           <textarea
             id="note"
             value={content}
-            onChange={handleContent} />
+            onChange={({ target }) => setContent(target.value)} />
         </div>
         <button onClick={handleSave}>Save</button>
         <button onClick={() => history.push('/note')}>Go Back to Notes</button>
-        {error && <div>{error}</div>}
       </div>
     </DefaultLayout>
   )
 }
 
-export default Note;
+export default withNoteDetail(Note);
