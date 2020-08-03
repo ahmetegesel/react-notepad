@@ -5,6 +5,7 @@ import { Form, Input, Button, Col, Row } from 'antd';
 import { DASHBOARD } from '../routes';
 import { ACTION_LOGIN, UserContext } from '../contexts/userContext';
 import UnauthorizedLayout from '../layouts/UnauthorizedLayout';
+import { login } from '../services/auth';
 
 const layout = {
   labelCol: { span: 8 },
@@ -20,17 +21,11 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
-  const onFinish = values => {
-    if (values.username === 'admin' && values.password === 'admin') {
+  const onFinish = ({ username, password }) => {
+    login(username, password).then(data => {
       dispatchUser({ type: ACTION_LOGIN });
       history.push(DASHBOARD);
-    } else {
-      setError('Invalid Credentials')
-    }
-  };
-
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
+    }).catch(err => setError(err.message));
   };
 
   const history = useHistory();
@@ -44,7 +39,6 @@ function Login() {
             {...layout}
             name="basic"
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
           >
             <Form.Item
               label="Username"
@@ -75,29 +69,6 @@ function Login() {
         </Col>
       </Row>
     </UnauthorizedLayout>
-    // <div>
-    //   This is Login page
-    //   <div>
-    //     <div>
-    //       <label htmlFor="username">Username: </label>
-    //       <input
-    //         id="username"
-    //         type="text"
-    //         value={username}
-    //         onChange={(e) => setUsername(e.target.value)} />
-    //     </div>
-    //     <div>
-    //       <label htmlFor="password">Password: </label>
-    //       <input
-    //         id="password"
-    //         type="text"
-    //         value={password}
-    //         onChange={(e) => setPassword(e.target.value)} />
-    //     </div>
-    //     <button onClick={logUserIn}>Login</button>
-    //
-    //   </div>
-    // </div>
   );
 }
 

@@ -1,8 +1,23 @@
+import { get as getBase, post as postBase } from './base'
+
 const dummyNotes = [{
   id: 1,
   title: 'First Note',
   content: 'First Note Content'
 }];
+
+console.log(process.env.REACT_APP_NOTE_API_URL)
+const BASE_URL = process.env.REACT_APP_NOTE_API_URL;
+
+const get = getBase(BASE_URL);
+const post = postBase(BASE_URL);
+
+export const signin = (username, password) => {
+  return post('/auth/signin', { body: { username, password } });
+}
+export const signup = (userData) => {
+  return post('/auth/signup', { body: userData });
+}
 
 const dummyNoteApi = {
   getNotes() {
