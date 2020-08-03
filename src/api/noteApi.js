@@ -6,7 +6,6 @@ const dummyNotes = [{
   content: 'First Note Content'
 }];
 
-console.log(process.env.REACT_APP_NOTE_API_URL)
 const BASE_URL = process.env.REACT_APP_NOTE_API_URL;
 
 const get = getBase(BASE_URL);
