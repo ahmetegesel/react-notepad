@@ -3,9 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { Form, Input, Button, Col, Row } from 'antd';
 
 import { DASHBOARD } from '../routes';
-import { ACTION_LOGIN, UserContext } from '../contexts/userContext';
+import UserContext from '../contexts/userContext';
 import UnauthorizedLayout from '../layouts/UnauthorizedLayout';
-import { login } from '../services/auth';
 
 const layout = {
   labelCol: { span: 8 },
@@ -21,15 +20,15 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
-  const onFinish = ({ username, password }) => {
-    login(username, password).then(data => {
-      dispatchUser({ type: ACTION_LOGIN });
-      history.push(DASHBOARD);
-    }).catch(err => setError(err.message));
-  };
+  const { login } = useContext(UserContext);
 
   const history = useHistory();
-  const { dispatch: dispatchUser } = useContext(UserContext);
+
+  const handleLoginClick = () => {
+    login(username, password)
+      .then(() => history.push(DASHBOARD))
+      .catch(err => setError(err.message));
+  };
 
   return (
     <UnauthorizedLayout>
@@ -38,7 +37,6 @@ function Login() {
           <Form
             {...layout}
             name="basic"
-            onFinish={onFinish}
           >
             <Form.Item
               label="Username"
@@ -59,7 +57,7 @@ function Login() {
             </Form.Item>
 
             <Form.Item {...tailLayout}>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" onClick={handleLoginClick}>
                 Login
               </Button>
             </Form.Item>

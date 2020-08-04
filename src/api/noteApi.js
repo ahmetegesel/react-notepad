@@ -1,4 +1,4 @@
-import { get as getBase, post as postBase } from './base'
+import { post as postBase } from './base'
 
 const dummyNotes = [{
   id: 1,
@@ -8,7 +8,6 @@ const dummyNotes = [{
 
 const BASE_URL = process.env.REACT_APP_NOTE_API_URL;
 
-const get = getBase(BASE_URL);
 const post = postBase(BASE_URL);
 
 export const signin = (username, password) => {

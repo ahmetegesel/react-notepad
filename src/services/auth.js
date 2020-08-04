@@ -1,11 +1,9 @@
-import { signin } from '../api/noteApi';
+import { signin as signinReq } from '../api/noteApi';
 
-export const login = async (username, password) => {
-  const loginData = await signin(username, password).catch(console.error);
+export const signin = async (username, password) => {
+  const loginData = await signinReq(username, password).catch(console.error);
 
-  if (loginData.accessToken) {
-    localStorage.setItem(process.env.REACT_APP_AUTH_STORAGE_KEY, loginData.accessToken);
-  } else {
+  if (!loginData.accessToken) {
     throw new Error(loginData.message || 'Invalid Credentials');
   }
 

@@ -1,35 +1,47 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useCallback, useReducer } from 'react';
 
-export const UserContext = createContext({ loggedIn: false });
+import { signin } from '../services/auth';
+
+export const UserContext = createContext({});
 
 export const ACTION_LOGIN = 'LOGIN';
-
+export const ACTION_LOGOUT = 'LOGOUT';
 export const reducer = (state, action) => {
   switch (action.type) {
     case ACTION_LOGIN:
+      localStorage.setItem(process.env.REACT_APP_AUTH_STORAGE_KEY, JSON.stringify(action.payload));
       return {
         ...state,
-        loggedIn: true,
+        ...action.payload,
       };
+    case ACTION_LOGOUT:
+      localStorage.removeItem(process.env.REACT_APP_AUTH_STORAGE_KEY);
+      return null;
     default:
       return state;
   }
 };
 
-const UserProvider = ({ children }) => {
-  const [user, dispatch] = useReducer(reducer, { loggedIn: false });
+export const UserProvider = ({ children }) => {
+  const initialValue = JSON.parse(localStorage.getItem(process.env.REACT_APP_AUTH_STORAGE_KEY));
+  const [user, dispatch] = useReducer(reducer, initialValue);
+
+  const login = useCallback((username, password) => {
+    return signin(username, password).then(loginData => {
+      dispatch({ type: ACTION_LOGIN, payload: loginData });
+      return loginData;
+    });
+  }, []);
+
+  const logout = useCallback(() => {
+    dispatch({ type: ACTION_LOGIN });
+  }, []);
 
   return (
-    <UserContext.Provider value={{ user, dispatch }}>
+    <UserContext.Provider value={{ user, login, logout }}>
       {children}
     </UserContext.Provider>
   );
 };
 
-export const withUserProvider = Component => ({ children, ...props }) => (
-  <UserProvider>
-    <Component { ...props } children={children} />
-  </UserProvider>
-)
-
-export default UserProvider;
+export default UserContext;
