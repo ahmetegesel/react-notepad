@@ -1,22 +1,14 @@
 import React from 'react';
-import { Layout, Menu, Row, Col } from 'antd';
-import { EditOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { Layout, Menu} from 'antd';
+import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import Header from '../components/Header';
 
-const { Content, Header, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 
 function DefaultLayout({ children }) {
   return (
     <Layout style={{minHeight: '100vh'}}>
-      <Header style={{ padding: 0 }}>
-        <Row align="middle" style={{color: 'white', fontSize: '2.2rem'}}>
-          <Col flex="1rem">
-            <EditOutlined />
-          </Col>
-          <Col flex="auto">
-            React Notepad
-          </Col>
-        </Row>
-      </Header>
+      <Header />
       <Layout>
         <Sider
           breakpoint="lg"

@@ -23,7 +23,8 @@ export const reducer = (state, action) => {
 };
 
 export const UserProvider = ({ children }) => {
-  const initialValue = JSON.parse(localStorage.getItem(process.env.REACT_APP_AUTH_STORAGE_KEY));
+  const authToken = localStorage.getItem(process.env.REACT_APP_AUTH_STORAGE_KEY);
+  const initialValue = authToken ? JSON.parse(authToken) : null;
   const [user, dispatch] = useReducer(reducer, initialValue);
 
   const login = useCallback((username, password) => {
@@ -34,7 +35,7 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   const logout = useCallback(() => {
-    dispatch({ type: ACTION_LOGIN });
+    dispatch({ type: ACTION_LOGOUT });
   }, []);
 
   return (
