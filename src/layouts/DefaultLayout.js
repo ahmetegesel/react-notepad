@@ -38,7 +38,7 @@ function DefaultLayout({ children }) {
         </Layout>
       </Layout>
     </Layout>
-  )
+  );
 }
 
 export default DefaultLayout;

@@ -6,7 +6,7 @@ function UnauthorizedLayout({ children }) {
     <Layout>
       {children}
     </Layout>
-  )
+  );
 }
 
 export default UnauthorizedLayout;

@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 
 import withAuth from '../utils/withAuth';
-import DefaultLayout from '../layouts/DefaultLayout';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import useUser from '../hooks/useUser';
+
+import DefaultLayout from '../layouts/DefaultLayout';
 
 function Dashboard() {
   const user = useUser();

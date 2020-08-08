@@ -3,9 +3,9 @@ import { useHistory } from 'react-router-dom';
 import { Form, Input, Button, Col, Row } from 'antd';
 
 import { DASHBOARD } from '../routes';
+import withTitle from '../utils/withTitle';
 import UserContext from '../contexts/userContext';
 import UnauthorizedLayout from '../layouts/UnauthorizedLayout';
-import withTitle from '../utils/withTitle';
 
 const layout = {
   labelCol: { span: 8 },

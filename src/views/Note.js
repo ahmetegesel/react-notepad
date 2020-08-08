@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { compose } from 'ramda';
 
-import DefaultLayout from '../layouts/DefaultLayout';
-import { NOTES } from '../routes';
 import withTitle from '../utils/withTitle';
 import withAuth from '../utils/withAuth';
-import dummyNoteApi from '../api/noteApi';
 import useAsync from '../hooks/useAsync';
+import { NOTES } from '../routes';
+
+import dummyNoteApi from '../api/noteApi';
+
+import DefaultLayout from '../layouts/DefaultLayout';
 
 function Note() {
   const { id } = useParams();
@@ -39,7 +41,7 @@ function Note() {
       title,
       content
     }).then(() => history.push(NOTES));
-  }
+  };
 
   return (
     <DefaultLayout>

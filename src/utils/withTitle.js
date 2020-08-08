@@ -8,7 +8,10 @@ const withTitle = title => Component => props => {
   useEffect(() => {
     setTitle(title);
   }, [setTitle]);
-  return <Component {...props} />
+
+  return (
+    <Component {...props} />
+  );
 }
 
 export default withTitle;

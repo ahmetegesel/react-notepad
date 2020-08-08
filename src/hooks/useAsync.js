@@ -1,10 +1,10 @@
 /*eslint-disable*/
 import { useCallback, useRef, useState } from 'react';
 
-import useMounted from './useMounted';
+import useMountedState from './useMountedState';
 
 function useAsync(fn, deps = [], initialState = {}) {
-  const isMounted = useMounted();
+  const isMounted = useMountedState();
   const lastCall = useRef(0);
 
   const [value, setValue] = useState(initialState);
