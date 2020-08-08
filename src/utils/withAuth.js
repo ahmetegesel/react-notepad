@@ -11,6 +11,7 @@ const withAuth = Component => (props) => {
 
   if (!user) {
     history.push(LOGIN);
+    return null;
   }
 
   return (
