@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import UserContext from '../contexts/userContext';
@@ -9,12 +9,13 @@ const withAuth = Component => (props) => {
   const history = useHistory();
   const { user } = useContext(UserContext);
 
-  if (!user) {
-    history.push(LOGIN);
-    return null;
-  }
+  useEffect(() => {
+    if (!user) {
+      history.push(LOGIN);
+    }
+  }, [user, history]);
 
-  return (
+  return user && (
     <Component {...props} />
   )
 }
