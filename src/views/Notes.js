@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
+import React  from 'react';
 import { compose } from 'ramda';
 
 import { useHistory } from 'react-router-dom';
 import DefaultLayout from '../layouts/DefaultLayout';
-import { NotesContext, withNotes } from '../contexts/notesContext';
 import withTitle from '../utils/withTitle';
 import withAuth from '../utils/withAuth';
+import useAsyncEffect from '../hooks/useAsyncEffect';
+import dummyNoteApi from '../api/noteApi';
 
 function Notes() {
-  const [notes] = useContext(NotesContext);
+  const [notes] = useAsyncEffect(dummyNoteApi.getNotes, [], []);
   const history = useHistory();
 
   const handleItemClick = (e, id) => {
@@ -37,7 +38,6 @@ function Notes() {
 }
 
 export default compose(
-  withNotes,
   withTitle(Notes.name),
   withAuth,
 )(Notes);

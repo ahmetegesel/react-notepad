@@ -1,19 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { compose } from 'ramda';
 
 import DefaultLayout from '../layouts/DefaultLayout';
-import { NoteDetailContext, withNoteDetail } from '../contexts/noteDetailContext';
 import { NOTES } from '../routes';
 import withTitle from '../utils/withTitle';
-import useDocumentTitle from '../hooks/useDocumentTitle';
 import withAuth from '../utils/withAuth';
+import dummyNoteApi from '../api/noteApi';
+import useAsync from '../hooks/useAsync';
 
 function Note() {
   const { id } = useParams();
 
-  const { fetch, save } = useContext(NoteDetailContext);
-  const { setTitle: setDocTitle } = useDocumentTitle();
+  const [, fetch]  = useAsync(() => dummyNoteApi.getNote(id), [id]);
+  const [, save]  = useAsync((noteToSave) => dummyNoteApi.saveNote(noteToSave));
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
@@ -27,10 +27,6 @@ function Note() {
       });
     }
   }, [id, fetch, setTitle, setContent]);
-
-  useEffect(() => {
-    setDocTitle(title || Note.name);
-  }, [title, setDocTitle])
 
   const handleTitle = ({ target }) => {
     const { value } = target;
@@ -67,7 +63,6 @@ function Note() {
 }
 
 export default compose(
-  withNoteDetail,
   withTitle(Note.name),
   withAuth,
 )(Note);
