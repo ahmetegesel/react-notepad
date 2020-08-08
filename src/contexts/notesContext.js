@@ -1,22 +1,15 @@
-import React, { createContext, useCallback, useEffect, useState } from 'react';
+import React, { createContext } from 'react';
 
 import dummyNoteApi from '../api/noteApi';
+import useAsyncEffect from '../hooks/useAsyncEffect';
 
 export const NotesContext = createContext([]);
 
 const NotesProvider = ({ children }) => {
-  const [notes, setNotes] = useState([]);
-
-  const fetch = useCallback(async () => {
-    setNotes(await dummyNoteApi.getNotes());
-  }, [setNotes]);
-
-  useEffect(() => {
-    fetch();
-  }, [fetch])
+  const [notes, error] = useAsyncEffect(dummyNoteApi.getNotes, [], []);
 
   return (
-    <NotesContext.Provider value={[notes, fetch]}>
+    <NotesContext.Provider value={[notes, error]}>
       {children}
     </NotesContext.Provider>
   );
