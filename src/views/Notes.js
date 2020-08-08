@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import DefaultLayout from '../layouts/DefaultLayout';
 import { NotesContext, withNotes } from '../contexts/notesContext';
 import withTitle from '../utils/withTitle';
+import withAuth from '../utils/withAuth';
 
 function Notes() {
   const [notes] = useContext(NotesContext);
@@ -38,4 +39,5 @@ function Notes() {
 export default compose(
   withNotes,
   withTitle(Notes.name),
+  withAuth,
 )(Notes);

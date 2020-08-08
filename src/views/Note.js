@@ -7,6 +7,7 @@ import { NoteDetailContext, withNoteDetail } from '../contexts/noteDetailContext
 import { NOTES } from '../routes';
 import withTitle from '../utils/withTitle';
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import withAuth from '../utils/withAuth';
 
 function Note() {
   const { id } = useParams();
@@ -68,4 +69,5 @@ function Note() {
 export default compose(
   withNoteDetail,
   withTitle(Note.name),
+  withAuth,
 )(Note);
