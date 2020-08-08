@@ -9,3 +9,7 @@ my-own-best-practices. With that, this project will never be completed or be wor
 properly all the time either.
 
 MIT License
+
+
+## Known Issues
+- Update during render error when logging out
