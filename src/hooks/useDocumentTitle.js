@@ -9,7 +9,6 @@ const useDocumentTitle = () => {
 
   useEffect(() => {
     const newTitle = [title, appName].filter(isNotNull).join(' | ');
-    console.log(newTitle);
     document.title = newTitle;
   }, [title]);
 
