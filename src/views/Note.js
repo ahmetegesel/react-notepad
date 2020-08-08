@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { compose } from 'ramda';
 
 import DefaultLayout from '../layouts/DefaultLayout';
 import { NoteDetailContext, withNoteDetail } from '../contexts/noteDetailContext';
 import { NOTES } from '../routes';
+import withTitle from '../utils/withTitle';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 function Note() {
   const { id } = useParams();
 
   const { fetch, save } = useContext(NoteDetailContext);
-
+  const { setTitle: setDocTitle } = useDocumentTitle();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
@@ -24,10 +27,13 @@ function Note() {
     }
   }, [id, fetch, setTitle, setContent]);
 
+  useEffect(() => {
+    setDocTitle(title || Note.name);
+  }, [title, setDocTitle])
+
   const handleTitle = ({ target }) => {
     const { value } = target;
     setTitle(value);
-    document.title = value;
   };
 
   const handleSave = () => {
@@ -59,4 +65,7 @@ function Note() {
   )
 }
 
-export default withNoteDetail(Note);
+export default compose(
+  withNoteDetail,
+  withTitle(Note.name),
+)(Note);

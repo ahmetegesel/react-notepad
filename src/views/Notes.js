@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
+import { compose } from 'ramda';
 
 import { useHistory } from 'react-router-dom';
 import DefaultLayout from '../layouts/DefaultLayout';
 import { NotesContext, withNotes } from '../contexts/notesContext';
+import withTitle from '../utils/withTitle';
 
 function Notes() {
   const [notes] = useContext(NotesContext);
@@ -33,4 +35,7 @@ function Notes() {
   );
 }
 
-export default withNotes(Notes);
+export default compose(
+  withNotes,
+  withTitle(Notes.name),
+)(Notes);

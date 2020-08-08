@@ -5,6 +5,7 @@ import { Form, Input, Button, Col, Row } from 'antd';
 import { DASHBOARD } from '../routes';
 import UserContext from '../contexts/userContext';
 import UnauthorizedLayout from '../layouts/UnauthorizedLayout';
+import withTitle from '../utils/withTitle';
 
 const layout = {
   labelCol: { span: 8 },
@@ -70,4 +71,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default withTitle(Login.name)(Login);
