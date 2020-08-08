@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { compose } from 'ramda';
 
-import withTitle from '../utils/withTitle';
+import withPageTitle from '../utils/withPageTitle';
 import withAuth from '../utils/withAuth';
 import useAsync from '../hooks/useAsync';
 import { NOTES } from '../routes';
@@ -10,36 +10,41 @@ import { NOTES } from '../routes';
 import dummyNoteApi from '../api/noteApi';
 
 import DefaultLayout from '../layouts/DefaultLayout';
+import { useTitleEffect } from '../hooks/useTitle';
 
 function Note() {
   const { id } = useParams();
 
   const [, fetch]  = useAsync(() => dummyNoteApi.getNote(id), [id]);
   const [, save]  = useAsync((noteToSave) => dummyNoteApi.saveNote(noteToSave));
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+
+  const [titleInput, setTitleInput] = useState('');
+  const [contentInput, setContentInput] = useState('');
 
   const history = useHistory();
 
   useEffect(() => {
     if (id) {
       fetch(id).then(noteDetail => {
-        setTitle(noteDetail.title);
-        setContent(noteDetail.content);
+        setTitleInput(noteDetail.title);
+        setContentInput(noteDetail.content);
       });
     }
-  }, [id, fetch, setTitle, setContent]);
+  }, [id, fetch, setTitleInput, setContentInput]);
+
+  const newNoteTitle = !id && 'New Note';
+  useTitleEffect(titleInput || newNoteTitle);
 
   const handleTitle = ({ target }) => {
     const { value } = target;
-    setTitle(value);
+    setTitleInput(value);
   };
 
   const handleSave = () => {
     save({
       id,
-      title,
-      content
+      title: titleInput,
+      content: contentInput
     }).then(() => history.push(NOTES));
   };
 
@@ -48,14 +53,14 @@ function Note() {
       <div>
         <div>
           <label htmlFor="note-title">Title: </label>
-          <input id="note-title" type="text" value={title} onChange={handleTitle} />
+          <input id="note-title" type="text" value={titleInput} onChange={handleTitle} />
         </div>
         <div>
           <label htmlFor="note">Note: </label>
           <textarea
             id="note"
-            value={content}
-            onChange={({ target }) => setContent(target.value)} />
+            value={contentInput}
+            onChange={({ target }) => setContentInput(target.value)} />
         </div>
         <button onClick={handleSave}>Save</button>
         <button onClick={() => history.push('/note')}>Go Back to Notes</button>
@@ -65,6 +70,6 @@ function Note() {
 }
 
 export default compose(
-  withTitle(Note.name),
+  withPageTitle(Note.name),
   withAuth,
 )(Note);

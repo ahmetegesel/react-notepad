@@ -2,7 +2,7 @@ import React  from 'react';
 import { useHistory } from 'react-router-dom';
 import { compose } from 'ramda';
 
-import withTitle from '../utils/withTitle';
+import withPageTitle from '../utils/withPageTitle';
 import withAuth from '../utils/withAuth';
 import useAsyncEffect from '../hooks/useAsyncEffect';
 
@@ -40,6 +40,6 @@ function Notes() {
 }
 
 export default compose(
-  withTitle(Notes.name),
+  withPageTitle(Notes.name),
   withAuth,
 )(Notes);

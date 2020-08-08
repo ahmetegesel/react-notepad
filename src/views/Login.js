@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Form, Input, Button, Col, Row } from 'antd';
 
 import { DASHBOARD } from '../routes';
-import withTitle from '../utils/withTitle';
+import withPageTitle from '../utils/withPageTitle';
 import UserContext from '../contexts/userContext';
 import UnauthorizedLayout from '../layouts/UnauthorizedLayout';
 
@@ -71,4 +71,4 @@ function Login() {
   );
 }
 
-export default withTitle(Login.name)(Login);
+export default withPageTitle(Login.name)(Login);

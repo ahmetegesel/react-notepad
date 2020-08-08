@@ -5,6 +5,8 @@ import useDocumentTitle from '../hooks/useDocumentTitle';
 import useUser from '../hooks/useUser';
 
 import DefaultLayout from '../layouts/DefaultLayout';
+import { compose } from 'ramda';
+import withPageTitle from '../utils/withPageTitle';
 
 function Dashboard() {
   const user = useUser();
@@ -25,4 +27,7 @@ function Dashboard() {
   );
 }
 
-export default withAuth(Dashboard);
+export default compose(
+  withPageTitle(Dashboard.name),
+  withAuth,
+)(Dashboard);
