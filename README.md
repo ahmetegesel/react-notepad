@@ -12,4 +12,3 @@ MIT License
 
 
 ## Known Issues
-- Update during render error when logging out
