@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { compose } from 'ramda';
+import { Form, Input, Button } from 'antd';
 
 import withPageTitle from '../utils/withPageTitle';
 import withAuth from '../utils/withAuth';
@@ -11,6 +12,21 @@ import dummyNoteApi from '../api/noteApi';
 
 import DefaultLayout from '../layouts/DefaultLayout';
 import { useTitleEffect } from '../hooks/useTitle';
+
+const layout = {
+  labelCol: {
+    span: 8,
+  },
+  wrapperCol: {
+    span: 16,
+  },
+};
+const tailLayout = {
+  wrapperCol: {
+    offset: 8,
+    span: 16,
+  },
+};
 
 function Note() {
   const { id } = useParams();
@@ -50,21 +66,47 @@ function Note() {
 
   return (
     <DefaultLayout>
-      <div>
-        <div>
-          <label htmlFor="note-title">Title: </label>
-          <input id="note-title" type="text" value={titleInput} onChange={handleTitle} />
-        </div>
-        <div>
-          <label htmlFor="note">Note: </label>
-          <textarea
-            id="note"
+      <Form
+        {...layout}
+        name="basic"
+        initialValues={{
+          title :titleInput,
+          content: contentInput,
+        }}
+      >
+        <Form.Item
+          label="Title"
+          name="title"
+          valuePropName="title"
+        >
+          <Input value={titleInput} onChange={handleTitle} />
+        </Form.Item>
+
+        <Form.Item
+          label="Note"
+          name="content"
+          valuePropName="content"
+        >
+          <Input.TextArea
             value={contentInput}
-            onChange={({ target }) => setContentInput(target.value)} />
-        </div>
-        <button onClick={handleSave}>Save</button>
-        <button onClick={() => history.push('/note')}>Go Back to Notes</button>
-      </div>
+            onChange={({ target }) => setContentInput(target.value)}
+          />
+        </Form.Item>
+
+        <Form.Item {...tailLayout}>
+          <Button
+            type="primary"
+            onClick={handleSave}
+          >
+            Save
+          </Button>
+          <Button
+            onClick={() => history.push('/note')}
+          >
+            Go back to Notes
+          </Button>
+        </Form.Item>
+      </Form>
     </DefaultLayout>
   )
 }
